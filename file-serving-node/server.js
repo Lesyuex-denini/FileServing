@@ -2,6 +2,17 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const mime = require('mime-types');
+const multer = require('multer');
+const express = require('express');
+
+const app = express();
+const upload = multer({ dest: 'uploads/' });
+
+app.use(express.static(public));
+app.post('/upload', upload.single('file'), (req, res) => {
+    res.send('File uploaded successfully');
+});
+
 
 const server = http.createServer((req, res) => {
     let filePath = path.join(__dirname, 'public', req.url === '/' ? 'index.html' : req.url);
